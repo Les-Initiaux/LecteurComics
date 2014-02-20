@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Comics Reader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<!--<link rel="stylesheet" type="text/css" href="css/style.css" /> -->
+<script type="text/javascript" src="./lib/zip.js"></script>
+<script type="text/javascript" src="./lib/dist/rar.js"></script>
+<script type="text/javascript" src="./test.js"></script>
+
+</head>
+<body>
+	<div id="Comics Reader">
+		<div id="welcome">
+			<div id="pick_file_tab" class="open">
+				Open a file 
+				<input type="file" id="pick_file_control"
+					name="pick_file_control" accept="application/rar"/>
+			</div>
+			<br />
+			<div id="content"></div>
+		</div>
+
+		<div id="pages">
+			<div id="flipbook"></div>
+			<div class="control" id="go_left"></div>
+			<div class="control" id="go_right"></div>
+		</div>
+	</div>
+</body>
+</html>
