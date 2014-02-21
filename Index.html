@@ -7,7 +7,7 @@
 <!--<link rel="stylesheet" type="text/css" href="css/style.css" /> -->
 <script type="text/javascript" src="./lib/zip.js"></script>
 <script type="text/javascript" src="./lib/dist/rar.js"></script>
-<script type="text/javascript" src="./test.js"></script>
+
 
 </head>
 <body>
@@ -16,17 +16,17 @@
 			<div id="pick_file_tab" class="open">
 				Open a file 
 				<input type="file" id="pick_file_control"
-					name="pick_file_control" accept="application/rar"/>
+					name="pick_file_control" onChange = "loadPath();" accept="application/rar" />
 			</div>
 			<br />
 			<div id="content"></div>
 		</div>
-
 		<div id="pages">
 			<div id="flipbook"></div>
 			<div class="control" id="go_left"></div>
 			<div class="control" id="go_right"></div>
 		</div>
 	</div>
+	<script type="text/javascript" src="./test.js"></script>
 </body>
 </html>

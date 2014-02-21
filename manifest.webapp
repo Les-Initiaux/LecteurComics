@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "version": "1.0.0",
+  "name": "Comics Reader",
+  "description": "Web app to read comics book cbr/cbz ",
+  "launch_path": "/index.html",
+  "developer": {},
+  "installs_allowed_from": ["*"],
+  "icons": {
+    "60": "/img/arrow_right.png",
+    "128": "/images/arrow_left.png"
+  },
+  "type" : "privileged",
+  "permissions": {"device-storage:file": { "access": "readonly" } 
+ }

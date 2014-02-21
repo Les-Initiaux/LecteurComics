@@ -12,23 +12,26 @@ var eltRight = document.getElementById("go_right");
 var content = document.getElementById("content");
 
 // eltPages.style.display = "none";
-console.log("test");
-filePicker.onchange(function() {
-	console.log("test3");
-	var File = filePicker.value;
-	console.log("test2");
-	// fire the upload here
-	var rar = RarArchive(File, function(err){
-		if(err){
-			console.log("erreur");
+
+//lecture fichier rar
+var tab=new Array;
+document.querySelector('input[type="file"]').onchange = function(e) {
+	var file = RarArchive(this.files[0], function(err) {
+		if(err) {
+			console.log(err);
 			return;
 		}
-		var t = new Array();
-		this.entries.foreach(function(val){
-			t.push(val.path);
-			console.log(val.path);
-		}
-		);
-	}
-	);
-});
+		var i = 0;
+		this.entries.forEach(function(val) {
+		console.log(val.path);
+		tab[i]=val.path;
+		console.log(i+" :"+tab[i]);
+		i=i+1;
+		});
+	});
+
+	var image = "<img src=" + tab[0] + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
+	console.log(image);
+	eltFlip.innerHTML=image;
+	console.log("passé!");
+};
