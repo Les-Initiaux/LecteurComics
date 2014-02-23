@@ -37,3 +37,10 @@ Controls
 	width: 10%;
     right: 0%;
 }
+
+li{
+	list-style-type: : none;
+	display: inline-block;
+	margin-top: 1%;
+	margin-left: 1%;
+}
