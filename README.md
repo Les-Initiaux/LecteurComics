@@ -1,7 +1,7 @@
 LecteurComics
 ===============
 
-A web app reader for comics book (CBR/CBZ/CBT)
+A web app for reader comics book (CBR/CBZ/CBT)
 
 ## Included code
 
