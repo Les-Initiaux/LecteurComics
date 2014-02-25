@@ -5,10 +5,10 @@ A web app to read comics book (CBR/CBZ/CBT)
 
 ##Keyboard Shortcuts
 
-UP: zoom in
-DOWN: zoom out
-LEFT: previous picture
-RIGHT: next picture
+*UP: zoom in
+*DOWN: zoom out
+*LEFT: previous picture
+*RIGHT: next picture
 
 ## Included code
 
