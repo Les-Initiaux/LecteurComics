@@ -4,12 +4,16 @@
   "name": "Comics Reader",
   "description": "Web app to read comics book cbr/cbz ",
   "launch_path": "/index.html",
-  "developer": {},
+  "developer": {
+  	"name" : "Les initiaux",
+  	"url" : "https://github.com/Les-Initiaux"
+  },
   "installs_allowed_from": ["*"],
   "icons": {
     "60": "/img/arrow_right.png",
     "128": "/images/arrow_left.png"
   },
   "type" : "privileged",
-  "permissions": {"device-storage:file": { "access": "readonly" } 
+  "permissions": {"device-storage:SDCARD": { "access": "readonly" } 
+ }
  }

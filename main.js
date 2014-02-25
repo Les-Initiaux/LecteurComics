@@ -2,35 +2,12 @@
  * 
  */
 
-if (!window.console) {
-	window.console = {};
-	window.console.log = function(str) {};
-	window.console.dir = function(str) {};
-}
-if (window.opera) {
-	window.console.log = function(str) {opera.postError(str);};
-	window.console.dir = function(str) {};
-}
-
-window.kthoom = {};
-
-//key codes
-var Key = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, 
-		A: 65, B: 66, C: 67, D: 68, E: 69, F: 70, G: 71, H: 72, I: 73, J: 74, K: 75, L: 76, M: 77, 
-		N: 78, O: 79, P: 80, Q: 81, R: 82, S: 83, T: 84, U: 85, V: 86, W: 87, X: 88, Y: 89, Z: 90};
 
 //global variables
-var worker;
 var currentImage = 0,
 imageFiles = [],
 imageFilenames = [];
-var totalImages = 0;
-var lastCompletion = 0;
 
-
-var rotateTimes = 0, hflip = false, vflip = false, fitMode = Key.B;
-
-//les notres
 var filePicker = document.getElementById("pick_file_control");
 var eltPages = document.getElementById("pages");
 var eltFlip = document.getElementById("flipbook");
@@ -45,6 +22,9 @@ var i = 0;
 var maxElement = 0;
 eltPages.style.display = "none";
 
+var KEY_LEFT = 37, KEY_RIGHT = 39;
+
+// local URL creation for files
 var createURLFromArray = function(array, mimeType) {
 	var offset = array.byteOffset, len = array.byteLength;
 	var blob;
@@ -68,12 +48,11 @@ var createURLFromArray = function(array, mimeType) {
 		blob = blob.mozSlice(offset, offset + len, mimeType);
 	} else if(blob.slice) { //
 		blob = blob.slice(2, 3).size == 1 ? 
-				blob.slice(offset, offset + len, mimeType) : //future behavior
-					blob.slice(offset, len, mimeType); //Old behavior
+				blob.slice(offset, offset + len, mimeType) :
+					blob.slice(offset, len, mimeType); 
 	}
 
-	// TODO: Simplify this some time in 2013 (Chrome 8 and 9 are ancient history).
-	var url = (typeof createObjectURL == 'function' ? createObjectURL(blob) : //Chrome 9?
+	var url = (typeof createObjectURL == 'function' ? createObjectURL(blob) : //Chrome 9
 		(typeof createBlobURL == 'function' ? createBlobURL(blob) : //Chrome 8
 			(((typeof URL == 'object' || typeof URL == 'function') && typeof URL.createObjectURL == 'function') ? URL.createObjectURL(blob) : //Chrome 15? Firefox
 				(((typeof webkitURL == 'object' || typeof webkitURL == 'function') && typeof webkitURL.createObjectURL == 'function') ? webkitURL.createObjectURL(blob) : //Chrome 10
@@ -82,9 +61,6 @@ var createURLFromArray = function(array, mimeType) {
 }
 
 //Stores an image filename and its data: URI.
-//TODO: investigate if we really need to store as base64 (leave off ;base64 and just
-//non-safe URL characters are encoded as %xx ?)
-//This would save 25% on memory since base64-encoded strings are 4/3 the size of the binary
 var ImageFile = function(file) {
 	this.filename = file.filename;
 	var fileExtension = file.filename.split('.').pop().toLowerCase();
@@ -95,23 +71,13 @@ var ImageFile = function(file) {
 	this.data = file;
 };
 
-//lecture fichier rar et zip
+//lecture fichier rar, zip et tar
 document.querySelector('input[type="file"]').onchange = function(e) {
 	eltPages.style.display="block";
 	var evt=e;
-	// lecture fichier rar
 	getFile(evt);
 
-	/*console.log(i);
-	console.log(maxElement);
-	var image = "<img src=" + tab[i] + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
-	console.log(image);
-	eltFlip.innerHTML=image;
-	};*/// gets the element with the given id
-
-
-
-	// lecture fichier
+	// openning
 	function getFile(evt) {
 		var inp = evt.target;
 		console.log(inp);
@@ -126,6 +92,7 @@ document.querySelector('input[type="file"]').onchange = function(e) {
 				var h = new Uint8Array(ab, 0, 10);
 				var pathToBitJS = "bitjs/";
 				var unarchiver = null;
+				// extension detection
 				if (h[0] == 0x52 && h[1] == 0x61 && h[2] == 0x72 && h[3] == 0x21) { //Rar!
 					unarchiver = new bitjs.archive.Unrarrer(ab, pathToBitJS);
 				} else if (h[0] == 80 && h[1] == 75) { //PK (Zip)
@@ -153,11 +120,10 @@ document.querySelector('input[type="file"]').onchange = function(e) {
 								var lien = "<li><img src=" + ImgMenu.dataURI + " alt=\""+indexPage+"\" width=\"50\" height=\"50\" onclick='javascript:selectPicture("+indexPage+")' /></li>";
 								Menu.innerHTML+=lien;
 								imageFiles.push(ImgMenu);
-
 							}
 						}
 						maxElement = imageFiles.length;
-						// display first page if we haven't yet
+						// display first page
 						var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>";
 						eltFlip.innerHTML=image;			
 					});
@@ -172,28 +138,52 @@ document.querySelector('input[type="file"]').onchange = function(e) {
 	}
 }
 
+// Change picture to the left
 eltLeft.onclick = function(){
-	if(i!=0){
-		i=i-1;
-	}
-	else {
-		i=0;
-	}
-	var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
-	eltFlip.innerHTML=image;
+	PreviousPicture();
 };
 
+// Change picture to the right
 eltRight.onclick = function(){
-	if(i<maxElement){
-		i=i+1;
-	}
-	else {
-		i=0;
-	}
-	var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
-	eltFlip.innerHTML=image;
+	NextPicture();
 };
 
+// change picture when press left or right
+function leftRight(event){
+	var e = event || window.event;
+	var code = e.charCode || e.keyCode;
+	if(code == KEY_LEFT){
+		PreviousPicture();
+	}
+	if(code == KEY_RIGHT){
+		NextPicture();
+	}
+}
+document.onkeyup = leftRight;
+
+function PreviousPicture(){
+	if(i!=0){
+			i=i-1;
+		}
+		else {
+			i=0;
+		}
+		var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
+		eltFlip.innerHTML=image;
+}
+
+function NextPicture(){
+	if(i<maxElement){
+			i=i+1;
+		}
+		else {
+			i=0;
+		}
+		var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>"; 
+		eltFlip.innerHTML=image;
+}
+
+// Change picture from menu
 function selectPicture(idPicture){
 	i = idPicture;
 	var image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\"250\" height=\"400\"/>";
