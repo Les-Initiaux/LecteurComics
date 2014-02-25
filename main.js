@@ -68,7 +68,8 @@ var ImageFile = function(file) {
 	var fileExtension = file.filename.split('.').pop().toLowerCase();
 	var mimeType = fileExtension == 'png' ? 'image/png' :
 		(fileExtension == 'jpg' || fileExtension == 'jpeg') ? 'image/jpeg' :
-			fileExtension == 'gif' ? 'image/gif' : undefined;
+			fileExtension == 'gif' ? 'image/gif' : 
+				(fileExtension == 'bmp' || fileExtension == 'dib') ? 'image/bmp' : undefined;
 	this.dataURI = createURLFromArray(file.fileData, mimeType);
 	this.data = file;
 };
