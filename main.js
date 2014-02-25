@@ -20,7 +20,7 @@ var eltMenu = document.getElementsByTagName("miniature");
 var content = document.getElementById("content");
 var i = 0;
 var maxElement = 0;
-var HeightDisplay = 400, WidthDisplay = 250;
+var HeightDisplay = 100, WidthDisplay = 100;
 var image;
 eltPages.style.display = "none";
 
@@ -128,7 +128,7 @@ document.querySelector('input[type="file"]').onchange = function(e) {
 						}
 						maxElement = imageFiles.length;
 						// display first page
-						image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+						image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 						eltFlip.innerHTML=image;			
 					});
 					unarchiver.start();
@@ -165,6 +165,7 @@ function leftRight(event){
 }
 document.onkeyup = leftRight;
 
+// change dimension of the picture
 function ZoomInZoomOut(event){
 	var e = event || window.event;
 	var code = e.charCode || e.keyCode;
@@ -185,7 +186,7 @@ function PreviousPicture(){
 		else {
 			i=0;
 		}
-		image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+		image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 		eltFlip.innerHTML=image;
 }
 
@@ -197,27 +198,27 @@ function NextPicture(){
 		else {
 			i=0;
 		}
-		image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+		image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 		eltFlip.innerHTML=image;
 }
 
 // Change picture from menu
 function selectPicture(idPicture){
 	i = idPicture;
-	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 	eltFlip.innerHTML=image;
 }
 
 function ZoomIn(){
 	HeightDisplay += 50;
 	WidthDisplay += 20;
-	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 	eltFlip.innerHTML=image;
 }
 
 function ZoomOut(){
 	HeightDisplay -= 50;
 	WidthDisplay -= 20;
-	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"\" height=\""+HeightDisplay+"\"/>";
+	image = "<img src=" + imageFiles[i].dataURI + " alt=\"page\" width=\""+WidthDisplay+"%\" height=\""+HeightDisplay+"%\"/>";
 	eltFlip.innerHTML=image;
 }
