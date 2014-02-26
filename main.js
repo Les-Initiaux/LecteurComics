@@ -35,9 +35,9 @@ var createURLFromArray = function(array, mimeType) {
 	if (typeof Blob == 'function') {
 		blob = new Blob([array], {type: mimeType});
 	} else {
-		var bb = (typeof BlobBuilder == 'function' ? (new BlobBuilder()) : //Chrome 8
-			(typeof WebKitBlobBuilder == 'function' ? (new WebKitBlobBuilder()) : //Chrome 12
-				(typeof MozBlobBuilder == 'function' ? (new MozBlobBuilder()) : //Firefox 6
+		var bb = (typeof BlobBuilder == 'function' ? (new BlobBuilder()) : //Chrome
+			(typeof WebKitBlobBuilder == 'function' ? (new WebKitBlobBuilder()) : //Chrome
+				(typeof MozBlobBuilder == 'function' ? (new MozBlobBuilder()) : //Firefox 
 					null)));
 		if (!bb) return false;
 		bb.append(array.buffer);
